@@ -1,0 +1,19 @@
+.Navbar {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 20px;
+}
+
+.logo {
+    font-size: x-large;
+    font-weight: bold;
+}
+
+.Navbar a {
+    text-decoration: none;
+    color: white;
+}
+
+.nav-links a {
+    margin: 0 10px;
+}
