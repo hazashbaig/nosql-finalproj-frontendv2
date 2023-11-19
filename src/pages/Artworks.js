@@ -1,19 +1,35 @@
+import React, { useState, useEffect } from "react";
 import Carousel from "../components/Carousel";
-import art1 from "../static/art1.jpg";
-import art2 from "../static/art2.jpg";
-import art3 from "../static/art3.jpg";
 
 function Artworks() {
-    const images = [
-        art1,
-        art2,
-        art3
-    ]
-    return(
-        <div>
-            <Carousel images={images}/>
-        </div>
-    );
+  const [artworkImages, setArtworkImages] = useState([]);
+
+  useEffect(() => {
+    // Fetch 10 random artworks from the server
+    const fetchRandomArtworks = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/artworks/random');
+        if (response.ok) {
+          const data = await response.json();
+          // Extract image URLs from the response data
+          const imageUrls = data.map(artwork => artwork.imageUrl);
+          setArtworkImages(imageUrls);
+        } else {
+          console.error('Failed to fetch random artworks:', response.status);
+        }
+      } catch (error) {
+        console.error('An error occurred during artwork fetching:', error);
+      }
+    };
+
+    fetchRandomArtworks();
+  }, []); // Run once when component mounts
+
+  return (
+    <div>
+      <Carousel images={artworkImages} />
+    </div>
+  );
 }
 
 export default Artworks;

@@ -9,11 +9,11 @@ const Carousel = ({ images }) => {
   const slideVariants = {
     hiddenRight: {
       x: "100%",
-      opacity: 0.7,
+      opacity: 0.8,
     },
     hiddenLeft: {
       x: "-100%",
-      opacity: 0.7,
+      opacity: 0.8,
     },
     visible: {
       x: "0",

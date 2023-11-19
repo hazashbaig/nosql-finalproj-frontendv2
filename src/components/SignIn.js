@@ -21,9 +21,8 @@ const SignIn = () => {
           const data = await response.json();
           console.log('Signin successful. Token:', data.token);
           localStorage.setItem("token", data.token);
-          localStorage.setItem("username", usernameOrEmail);
-          console.log(localStorage.getItem("username"));
-          console.log(localStorage.getItem("token"));
+          localStorage.setItem("username", data.username);
+          localStorage.setItem("email", data.email);
           window.location = "/Artworks";
           // Store the token in your state or context for further authentication
         } catch (jsonError) {

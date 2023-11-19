@@ -2,15 +2,45 @@ import React, { useState, useEffect } from "react";
 import "./MyArts.css";
 
 function MyArts() {
-  const [imageUrls, setImageUrls] = useState([]);
+  const [images, setImages] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedArtworkId, setSelectedArtworkId] = useState(null);
 
   const handleImageClick = (image) => {
     setSelectedImage(image);
+    console.log(image);
+    const artworkId = image._id; // Extract artwork ID from the selected image URL
+    setSelectedArtworkId(artworkId);
+    console.log(selectedArtworkId);
   };
 
   const handleBack = () => {
     setSelectedImage(null);
+    setSelectedArtworkId(null);
+  };
+
+  const handleDelete = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`http://localhost:5000/artworks/delete/${selectedArtworkId}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        // Remove the deleted artwork from the imageUrls state
+        const updatedImages = images.filter(image => image._id !== selectedArtworkId);
+        setImages(updatedImages);
+        setSelectedImage(null); // Clear selected image after deletion
+        setSelectedArtworkId(null); // Clear selected artwork ID after deletion
+      } else {
+        console.error('Failed to delete artwork:', response.status);
+      }
+    } catch (error) {
+      console.error('An error occurred during artwork deletion:', error);
+    }
   };
 
   useEffect(() => {
@@ -26,10 +56,8 @@ function MyArts() {
 
         if (response.ok) {
           const data = await response.json();
-          console.log(data);
-          const imageUrls = data.map(item => item.imageUrl);
-          setImageUrls(imageUrls);
-
+          setImages(data);
+          console.log(`Images: ${data}`);
         } else {
           console.error('Failed to fetch artworks:', response.status);
         }
@@ -45,20 +73,25 @@ function MyArts() {
     <div className="art-showcase-container">
       {selectedImage ? (
         <div className="selected-image-container">
-          <img src={selectedImage} alt="Selected Art" />
-          <button className="back-btn" onClick={handleBack}>
-            Back
-          </button>
+          <img src={selectedImage.imageUrl} alt="Selected Art" />
+          <div className="button-container">
+            <button className="back-btn" onClick={handleBack}>
+              Back
+            </button>
+            <button className="delete-btn" onClick={handleDelete}>
+              Delete
+            </button>
+          </div>
         </div>
       ) : (
         <div className="image-grid-container">
           <div className="image-grid">
-            {imageUrls.map((imageUrl, index) => (
+            {images.map((image, index) => (
               <img
                 key={index}
-                src={imageUrl}
+                src={image.imageUrl}
                 alt={`Art ${index + 1}`}
-                onClick={() => handleImageClick(imageUrl)}
+                onClick={() => handleImageClick(image)}
                 className="grid-image"
               />
             ))}

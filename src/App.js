@@ -6,6 +6,8 @@ import Home from "./pages/Home";
 import MyArts from './pages/MyArts';
 import SignInPage from './pages/SignInPage';
 import SignUpPage from './pages/SignUpPage';
+import AddArt from './pages/AddArt';
+
 
 
 function App() {
@@ -19,6 +21,7 @@ function App() {
             <Route path="/MyArts" Component={MyArts} />
             <Route path="/signin" Component={SignInPage} />
             <Route path="/signup" Component={SignUpPage} />
+            <Route path='/addArt' Component={AddArt} />
           </Routes>
           </div>
         </Router>

@@ -24,6 +24,7 @@ function Navbar() {
     // Clear localStorage and navigate to the sign-in page
     localStorage.removeItem("token");
     localStorage.removeItem("username");
+    localStorage.removeItem("email");
     setLoggedIn(false);
     navigate("/signin");
   };
@@ -52,15 +53,31 @@ function Navbar() {
               {isLoggedIn ? (
                 // Render these items if the user is logged in
                 <>
-                  <button className="list-group-item list-group-item-action px-4" onClick={() => navigate("/myArts")}>
-                    <small>My Arts</small>
-                  </button>
-                  <button className="list-group-item list-group-item-action px-4" onClick={() => navigate("/addArt")}>
-                    <small>Add Art</small>
-                  </button>
-                  <button className="list-group-item list-group-item-action px-4" onClick={handleLogout}>
-                    <small>Logout</small>
-                  </button>
+                  <h5 className="text-center mb-0">{localStorage.getItem("username")}</h5>
+                  <p className="text-center mb-2">{localStorage.getItem("email")}</p>
+
+                  <hr className="mb-0" style={{ margin: "0 -24px 0" }} />
+                  
+                  <div
+                    className="list-group list-group-flush"
+                    style={{ margin: "0 -24px 0" }}
+                  >
+                    <button className="list-group-item list-group-item-action px-4" onClick={() => navigate("/myArts")}>
+                      <small>My Arts</small>
+                    </button>
+                    <button className="list-group-item list-group-item-action px-4" onClick={() => navigate("/addArt")}>
+                      <small>Add Art</small>
+                    </button>
+                  </div>
+
+                  <hr style={{ margin: "0 -24px 24px" }} />
+
+                  <div className="d-grid">
+                    <button className="btn btn-secondary" onClick={handleLogout}>
+                      <small>Logout</small>
+                    </button>
+                  </div>
+                  
                 </>
               ) : (
                 // Render these items if the user is not logged in
