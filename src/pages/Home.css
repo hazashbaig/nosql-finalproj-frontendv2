@@ -20,6 +20,7 @@
 .title {
     animation: fadeIn 0.5s ease-in-out;
     display: flex;
+    margin: auto;
     justify-content: center;
     align-items: center;
     color: white;
