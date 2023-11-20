@@ -29,6 +29,7 @@ const SignIn = () => {
           console.error('Error parsing JSON:', jsonError);
         }
       } else {
+        alert("Incorrect username or password");
         console.error('Signin failed with status:', response.status);
         // Handle non-JSON responses here, e.g., redirect or show an error message
       }

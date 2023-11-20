@@ -57,7 +57,7 @@ function MyArts() {
         if (response.ok) {
           const data = await response.json();
           setImages(data);
-          console.log(`Images: ${data}`);
+          console.log(data);
         } else {
           console.error('Failed to fetch artworks:', response.status);
         }
@@ -73,7 +73,15 @@ function MyArts() {
     <div className="art-showcase-container">
       {selectedImage ? (
         <div className="selected-image-container">
-          <img src={selectedImage.imageUrl} alt="Selected Art" />
+          <div className="image-area">
+            <div className="image">
+              <img src={selectedImage.imageUrl} alt="Selected Art" />
+            </div>
+            <div className="about-image">
+              <h4>{selectedImage.title}</h4>
+              <p>{selectedImage.description}</p>
+            </div>
+          </div>
           <div className="button-container">
             <button className="back-btn" onClick={handleBack}>
               Back
@@ -83,6 +91,7 @@ function MyArts() {
             </button>
           </div>
         </div>
+        
       ) : (
         <div className="image-grid-container">
           <div className="image-grid">

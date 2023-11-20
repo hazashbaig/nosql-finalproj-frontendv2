@@ -17,6 +17,7 @@ const Signup = () => {
       });
 
       if (response.ok) {
+        alert('Successfully registered!');
         console.log('User registered successfully');
       } else {
         const data = await response.json();
