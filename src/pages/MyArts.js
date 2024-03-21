@@ -9,11 +9,11 @@ function MyArts() {
   const handleImageClick = (image) => {
     setSelectedImage(image);
     console.log(image);
-    const artworkId = image._id; // Extract artwork ID from the selected image URL
+    const artworkId = image._id;
     setSelectedArtworkId(artworkId);
     console.log(selectedArtworkId);
   };
-
+   
   const handleBack = () => {
     setSelectedImage(null);
     setSelectedArtworkId(null);
@@ -30,11 +30,10 @@ function MyArts() {
       });
 
       if (response.ok) {
-        // Remove the deleted artwork from the imageUrls state
         const updatedImages = images.filter(image => image._id !== selectedArtworkId);
         setImages(updatedImages);
-        setSelectedImage(null); // Clear selected image after deletion
-        setSelectedArtworkId(null); // Clear selected artwork ID after deletion
+        setSelectedImage(null); 
+        setSelectedArtworkId(null); 
       } else {
         console.error('Failed to delete artwork:', response.status);
       }
@@ -44,7 +43,6 @@ function MyArts() {
   };
 
   useEffect(() => {
-    // Fetch user's artworks from the server
     const fetchUserArtworks = async () => {
       try {
         const token = localStorage.getItem('token');
@@ -67,7 +65,7 @@ function MyArts() {
     };
 
     fetchUserArtworks();
-  }, []); // Run once when component mounts
+  }, []); 
 
   return (
     <div className="art-showcase-container">
