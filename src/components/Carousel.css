@@ -73,7 +73,7 @@
 
 .download-button {
     position: fixed;
-    bottom: 100px;
+    bottom: 70px;
     right: 20px;
     z-index: 9999;
     background-color: #00b32d;
