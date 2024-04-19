@@ -64,6 +64,30 @@ const Carousel = ({ images }) => {
     setCurrentIndex(index);
   };
 
+  const handleDownload = () => {
+    const imageUrl = images[currentIndex];
+    const imageName = `image_${currentIndex}.jpg`;
+    downloadImage(imageUrl, imageName);
+  };
+
+  const downloadImage = async (imageUrl, imageName) => {
+    try {
+      const response = await fetch(imageUrl);
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+
+      const anchor = document.createElement('a');
+      anchor.href = url;
+      anchor.download = imageName;
+
+      anchor.click();
+
+      URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Error downloading image:', error);
+    }
+  };
+
   return (
     <div className="carousel">
         <div className="carousel-images">
@@ -123,6 +147,9 @@ const Carousel = ({ images }) => {
           ></motion.div>
         ))}
       </div>
+      <button className="download-button" onClick={handleDownload}>
+          Download
+        </button>
     </div>
   );
 };
