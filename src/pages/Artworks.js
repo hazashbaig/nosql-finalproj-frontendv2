@@ -8,7 +8,7 @@ function Artworks() {
     // Fetch 10 random artworks from the server
     const fetchRandomArtworks = async () => {
       try {
-        const response = await fetch('http://localhost:5000/artworks/random');
+        const response = await fetch('https://nosql-finalproject.onrender.com/artworks/random');
         if (response.ok) {
           const data = await response.json();
           // Extract image URLs from the response data
@@ -23,7 +23,7 @@ function Artworks() {
     };
 
     fetchRandomArtworks();
-  }, []); // Run once when component mounts
+  }, []);
 
   return (
     <div>

@@ -18,12 +18,40 @@ function AddArt() {
     }));
   };
 
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", "my_preset"); // Replace with your Cloudinary upload preset
+
+      const response = await fetch("https://api.cloudinary.com/v1_1/dhpvl0j6x/image/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setFormData((prevData) => ({
+          ...prevData,
+          imageUrl: data.secure_url,
+        }));
+      } else {
+        console.error("Failed to upload image:", response.status);
+      }
+    } catch (error) {
+      console.error("An error occurred during image upload:", error);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Add logic to send the form data to your API for adding artwork
+
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:5000/artworks/add", {
+      const response = await fetch("https://nosql-finalproject.onrender.com/artworks/add", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -33,11 +61,9 @@ function AddArt() {
       });
 
       if (response.ok) {
-        // Handle successful artwork addition, e.g., show a success message
         console.log("Artwork added successfully");
-        navigate("/myArts"); // Navigate to the user's artwork page
+        navigate("/myArts");
       } else {
-        // Handle errors, e.g., show an error message to the user
         console.error("Failed to add artwork:", response.status);
       }
     } catch (error) {
@@ -68,13 +94,13 @@ function AddArt() {
           required
         />
 
-        <label htmlFor="imageUrl">Image URL:</label>
+        <label htmlFor="image">Image:</label>
         <input
-          type="text"
-          id="imageUrl"
-          name="imageUrl"
-          value={formData.imageUrl}
-          onChange={handleChange}
+          type="file"
+          id="image"
+          name="image"
+          accept="image/*"
+          onChange={handleImageUpload}
           required
         />
 

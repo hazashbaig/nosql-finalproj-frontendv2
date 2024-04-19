@@ -22,7 +22,7 @@ function MyArts() {
   const handleDelete = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:5000/artworks/delete/${selectedArtworkId}`, {
+      const response = await fetch(`https://nosql-finalproject.onrender.com/artworks/delete/${selectedArtworkId}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -42,11 +42,30 @@ function MyArts() {
     }
   };
 
+  const downloadImage = async (imageUrl, imageName) => {
+    try {
+      const response = await fetch(imageUrl);
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+
+      const anchor = document.createElement('a');
+      anchor.href = url;
+      anchor.download = imageName;
+
+      anchor.click();
+
+      URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Error downloading image:', error);
+    }
+  };
+
+
   useEffect(() => {
     const fetchUserArtworks = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await fetch('http://localhost:5000/artworks/my-artworks', {
+        const response = await fetch('https://nosql-finalproject.onrender.com/artworks/my-artworks', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -86,6 +105,9 @@ function MyArts() {
             </button>
             <button className="delete-btn" onClick={handleDelete}>
               Delete
+            </button>
+            <button onClick={() => downloadImage(selectedImage.imageUrl, selectedImage.title)}>
+              Download
             </button>
           </div>
         </div>
