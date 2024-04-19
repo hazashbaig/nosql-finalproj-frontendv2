@@ -147,9 +147,11 @@ const Carousel = ({ images }) => {
           ></motion.div>
         ))}
       </div>
-      <button className="download-button" onClick={handleDownload}>
-          Download
-        </button>
+      <div>
+        <button className="download-button" onClick={handleDownload}>
+            Download
+          </button>
+      </div>
     </div>
   );
 };
